@@ -17,16 +17,49 @@
   计算属性存在缓存, 多次读取只执行一次getter计算
 -->
 <div id="demo">
-  姓: <input type="text" placeholder="First Name"><br>
-  名: <input type="text" placeholder="Last Name"><br>
-  姓名1(单向): <input type="text" placeholder="Full Name1"><br>
-  姓名2(单向): <input type="text" placeholder="Full Name2"><br>
+  姓: <input type="text" placeholder="First Name" v-model="firstName"><br>
+  名: <input type="text" placeholder="Last Name" v-model="lastName"><br>
+  <!--fullName1是根据fistName和lastName计算产生-->
+  姓名1(单向): <input type="text" placeholder="Full Name1" v-model="fullName1"><br>
+  姓名2(单向): <input type="text" placeholder="Full Name2" v-model="fullName2"><br>
   姓名3(双向): <input type="text" placeholder="Full Name3"><br>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
+  const vm = new Vue({
+    el: '#demo',
+    data: {
+      firstName: 'A',
+      lastName: 'B',
+       fullName2: 'A-B'
+    },
 
+    // 计算属性配置: 值为对象
+    computed: {
+      fullName1 () { // 属性的get()
+        console.log('fullName1()', this)
+        return this.firstName + '-' + this.lastName
+      }
+    },
+
+
+    watch: {
+      // 配置监视firstName
+      firstName: function (value) { // 相当于属性的set
+        console.log('watch firstName', value)
+        // 更新fullName2
+        this.fullName2 = value + '-' + this.lastName
+      }
+    }
+  })
+
+  // 监视lastName
+  vm.$watch('lastName', function (value) {
+    console.log('$watch lastName', value)
+    // 更新fullName2
+    this.fullName2 = this.firstName + '-' + value
+  })
 </script>
 </body>
 </html>

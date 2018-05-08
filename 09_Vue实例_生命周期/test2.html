@@ -36,7 +36,20 @@
       isShow: true
     },
 
+    beforeCreate() {
+      console.log('beforeCreate()')
+    },
+
+    created() {
+      console.log('created()')
+    },
+
+    beforeMount() {
+      console.log('beforeMount()')
+    },
+
     mounted () {
+      console.log('mounted()')
       // 执行异步任务
       this.intervalId = setInterval(() => {
         console.log('-----')
@@ -44,10 +57,23 @@
       }, 1000)
     },
 
+
+    beforeUpdate() {
+      console.log('beforeUpdate()')
+    },
+    updated () {
+      console.log('updated()')
+    },
+
+
     beforeDestroy() {
       console.log('beforeDestroy()')
       // 执行收尾的工作
       clearInterval(this.intervalId)
+    },
+
+    destroyed() {
+      console.log('destroyed()')
     },
 
     methods: {
